@@ -3,55 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal Semakan Email DELIMA SMK Sungai Besar</title>
+<title>Portal Semakan Email DELIMA</title>
 <style>
 body{font-family:Arial;background:#eef4ff;padding:30px}
 .container{max-width:900px;margin:auto;background:white;padding:30px;border-radius:20px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
 input,button{padding:14px;font-size:16px;border-radius:12px}
 input{width:70%;border:1px solid #ccc}
 button{background:#2563eb;color:white;border:none;cursor:pointer}
+button:disabled{background:#94a3b8;cursor:not-allowed}
 #result{margin-top:20px;padding:20px;border:1px dashed #ccc;border-radius:12px}
+.status{font-size:14px;color:#666;margin-top:10px}
+.match{padding:10px 0;border-bottom:1px solid #eee}
+.match:last-child{border-bottom:none}
 </style>
 </head>
 <body>
 <div class="container">
-<h2>Portal Semakan Email DELIMA SMK Sungai Besar Selangor</h2>
+<h2>Portal Semakan Email DELIMA</h2>
 <p>Masukkan nama murid untuk semak email DELIMA</p>
 
 <input id="name" placeholder="Taip nama murid">
-<button onclick="searchEmail()">Semak</button>
+<button id="searchBtn" onclick="searchEmail()" disabled>Semak</button>
 
-<div id="result">Belum ada carian</div>
+<div id="result">Memuatkan data...</div>
+<div class="status" id="statusText">Sila tunggu. Data sedang dimuatkan.</div>
 </div>
 
 <script>
 let studentData = [];
 
 fetch('./data.json')
-.then(response => response.json())
-.then(data => studentData = data);
+.then(response => {
+  if (!response.ok) {
+    throw new Error('Fail data.json tidak dijumpai');
+  }
+  return response.json();
+})
+.then(data => {
+  studentData = data;
+  document.getElementById('searchBtn').disabled = false;
+  document.getElementById('result').innerHTML = 'Data berjaya dimuatkan. Boleh mula semakan.';
+  document.getElementById('statusText').innerHTML = 'Jumlah rekod: ' + studentData.length;
+})
+.catch(error => {
+  document.getElementById('result').innerHTML = 'Ralat memuatkan data.json';
+  document.getElementById('statusText').innerHTML = error.message;
+});
 
 function normalizeText(text){
- return text.toLowerCase().trim();
+  return text
+    .toLowerCase()
+    .replace(/\s+/g,' ')
+    .trim();
 }
 
 function searchEmail(){
- const input = normalizeText(document.getElementById('name').value);
- const result = document.getElementById('result');
+  const input = normalizeText(document.getElementById('name').value);
+  const result = document.getElementById('result');
 
- const found = studentData.find(s => normalizeText(s.name) === input);
+  if(!input){
+    result.innerHTML = 'Sila masukkan nama murid';
+    return;
+  }
 
- if(found){
-   result.innerHTML = "<b>"+found.name+"</b><br>"+found.email;
- } else {
-   const partial = studentData.filter(s => normalizeText(s.name).includes(input)).slice(0,10);
-   if(partial.length>0){
-     result.innerHTML = partial.map(s=>"<b>"+s.name+"</b><br>"+s.email).join("<hr>");
-   } else {
-     result.innerHTML = "Nama tidak dijumpai";
-   }
- }
+  const found = studentData.find(s => normalizeText(s.name) === input);
+
+  if(found){
+    result.innerHTML = "<b>"+found.name+"</b><br>"+found.email;
+  } else {
+    const partial = studentData
+      .filter(s => normalizeText(s.name).includes(input))
+      .slice(0,10);
+
+    if(partial.length > 0){
+      result.innerHTML = partial.map(s =>
+        '<div class="match"><b>'+s.name+'</b><br>'+s.email+'</div>'
+      ).join('');
+    } else {
+      result.innerHTML = "Nama tidak dijumpai";
+    }
+  }
 }
+
+document.getElementById('name').addEventListener('keydown', function(event){
+  if(event.key === 'Enter'){
+    searchEmail();
+  }
+});
 </script>
 </body>
 </html>
