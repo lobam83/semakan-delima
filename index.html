@@ -6,16 +6,13 @@
 <title>Portal Semakan Email DELIMA SMK Sungai Besar</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box;}
 
 body{
-  font-family:Arial, sans-serif;
+  font-family:Arial,sans-serif;
   margin:0;
   padding:30px 20px;
   background:linear-gradient(135deg,#f8fbff,#eef4ff);
-  color:#1e293b;
 }
 
 .container{
@@ -27,26 +24,20 @@ body{
   box-shadow:0 15px 35px rgba(0,0,0,.08);
 }
 
-.header{
-  text-align:center;
-  margin-bottom:30px;
-}
+.header{text-align:center;margin-bottom:30px;}
 
 .school-logo{
   width:120px;
-  height:auto;
   margin-bottom:15px;
 }
 
 .header h1{
   margin:0;
   font-size:32px;
-  color:#0f172a;
 }
 
 .header p{
   margin:8px 0;
-  font-size:18px;
   color:#475569;
 }
 
@@ -57,47 +48,41 @@ body{
 
 .search-box{
   display:flex;
-  gap:12px;
-  margin-top:25px;
+  gap:10px;
   flex-wrap:wrap;
+  margin-top:25px;
 }
 
 input{
   flex:1;
   min-width:250px;
   padding:15px;
-  font-size:16px;
   border-radius:14px;
   border:1px solid #cbd5e1;
-  background:#f8fafc;
-}
-
-input:focus{
-  outline:none;
-  border-color:#2563eb;
-  box-shadow:0 0 0 4px rgba(37,99,235,.1);
+  font-size:16px;
 }
 
 button{
-  padding:15px 24px;
+  padding:15px 20px;
   border:none;
   border-radius:14px;
-  background:#2563eb;
   color:white;
-  font-size:16px;
   font-weight:bold;
   cursor:pointer;
-  transition:.25s;
 }
 
-button:hover:not(:disabled){
-  background:#1d4ed8;
-  transform:translateY(-1px);
+#searchBtn{
+  background:#2563eb;
 }
 
-button:disabled{
-  background:#94a3b8;
-  cursor:not-allowed;
+#resetBtn{
+  background:#64748b;
+}
+
+.copy-btn{
+  margin-top:12px;
+  background:#16a34a;
+  padding:12px 18px;
 }
 
 #result{
@@ -106,26 +91,22 @@ button:disabled{
   border-radius:18px;
   background:#f8fbff;
   border:1px dashed #cbd5e1;
-  min-height:100px;
 }
 
 .result-card{
   background:white;
   padding:18px;
   border-radius:14px;
-  box-shadow:0 4px 10px rgba(0,0,0,.04);
 }
 
 .result-name{
   font-size:20px;
   font-weight:bold;
-  color:#0f172a;
-  margin-bottom:8px;
 }
 
 .result-email{
   color:#2563eb;
-  font-size:17px;
+  margin-top:8px;
 }
 
 .match{
@@ -133,40 +114,17 @@ button:disabled{
   border-bottom:1px solid #e5e7eb;
 }
 
-.match:last-child{
-  border-bottom:none;
-}
-
 .status{
   text-align:center;
   margin-top:15px;
   color:#64748b;
-  font-size:15px;
 }
 
 .footer{
-  margin-top:30px;
   text-align:center;
+  margin-top:30px;
   color:#94a3b8;
   font-size:13px;
-}
-
-@media(max-width:600px){
-  .search-box{
-    flex-direction:column;
-  }
-
-  button{
-    width:100%;
-  }
-
-  .school-logo{
-    width:100px;
-  }
-
-  .header h1{
-    font-size:26px;
-  }
 }
 </style>
 </head>
@@ -175,105 +133,100 @@ button:disabled{
 
 <div class="container">
 
-  <div class="header">
-    <img src="LOGO SMK 2025.png" class="school-logo">
-    <h1>Portal Semakan Email DELIMA</h1>
-    <p>SMK Sungai Besar</p>
-    <div class="subtitle">Semakan email rasmi murid bagi akses DELIMA KPM</div>
-  </div>
+<div class="header">
+<img src="LOGO SMK 2025.png" class="school-logo">
+<h1>Portal Semakan Email DELIMA</h1>
+<p>SMK Sungai Besar</p>
+<div class="subtitle">Semakan email rasmi murid bagi akses DELIMA KPM</div>
+</div>
 
-  <div class="search-box">
-    <input id="name" placeholder="Taip nama murid">
-    <button id="searchBtn" onclick="searchEmail()" disabled>Semak</button>
-  </div>
+<div class="search-box">
+<input id="name" placeholder="Taip nama murid">
+<button id="searchBtn" onclick="searchEmail()" disabled>Semak</button>
+<button id="resetBtn" onclick="resetSearch()">Reset</button>
+</div>
 
-  <div id="result">Memuatkan data...</div>
-  <div class="status" id="statusText">Sila tunggu. Data sedang dimuatkan.</div>
+<div id="result">Memuatkan data...</div>
+<div class="status" id="statusText">Sila tunggu. Data sedang dimuatkan.</div>
 
-  <div class="footer">
-    Portal semakan rasmi murid SMK Sungai Besar
-  </div>
+<div class="footer">
+Portal semakan rasmi murid SMK Sungai Besar
+</div>
 
 </div>
 
 <script>
-let studentData = [];
+let studentData=[];
 
 fetch('./data.json')
-.then(response => {
-  if (!response.ok) throw new Error('Fail data.json tidak dijumpai');
-  return response.json();
-})
-.then(data => {
-  studentData = data;
-  document.getElementById('searchBtn').disabled = false;
-  document.getElementById('result').innerHTML = `
+.then(response=>response.json())
+.then(data=>{
+  studentData=data;
+  document.getElementById('searchBtn').disabled=false;
+  document.getElementById('result').innerHTML=`
     <div class="result-card">
       <div class="result-name">Data berjaya dimuatkan</div>
       <div class="result-email">Boleh mula semakan nama murid.</div>
     </div>
   `;
-  document.getElementById('statusText').innerHTML = 'Jumlah rekod: ' + studentData.length;
-})
-.catch(error => {
-  document.getElementById('result').innerHTML = `
-    <div class="result-card">
-      <div class="result-name">Ralat memuatkan data</div>
-      <div class="result-email">${error.message}</div>
-    </div>
-  `;
+  document.getElementById('statusText').innerHTML='Jumlah rekod: '+studentData.length;
 });
 
 function normalizeText(text){
   return text.toLowerCase().replace(/\s+/g,' ').trim();
 }
 
+function copyEmail(email){
+  navigator.clipboard.writeText(email);
+}
+
+function resetSearch(){
+  document.getElementById('name').value='';
+  document.getElementById('result').innerHTML=`
+    <div class="result-card">
+      <div class="result-name">Sila buat carian baharu</div>
+    </div>
+  `;
+}
+
 function searchEmail(){
-  const input = normalizeText(document.getElementById('name').value);
-  const result = document.getElementById('result');
+  const input=normalizeText(document.getElementById('name').value);
+  const result=document.getElementById('result');
 
   if(!input){
-    result.innerHTML = `
-      <div class="result-card">
-        <div class="result-name">Sila masukkan nama murid</div>
-      </div>
-    `;
+    result.innerHTML=`<div class="result-card"><div class="result-name">Sila masukkan nama murid</div></div>`;
     return;
   }
 
-  const found = studentData.find(s => normalizeText(s.name) === input);
+  const found=studentData.find(s=>normalizeText(s.name)===input);
 
   if(found){
-    result.innerHTML = `
+    result.innerHTML=`
       <div class="result-card">
         <div class="result-name">${found.name}</div>
         <div class="result-email">${found.email}</div>
+        <button class="copy-btn" onclick="copyEmail('${found.email}')">Salin Email</button>
       </div>
     `;
-  } else {
-    const partial = studentData.filter(s =>
-      normalizeText(s.name).includes(input)
-    ).slice(0,10);
+  }else{
+    const partial=studentData.filter(s=>normalizeText(s.name).includes(input)).slice(0,10);
 
-    if(partial.length > 0){
-      result.innerHTML = partial.map(s =>
-        `<div class="match">
+    if(partial.length>0){
+      result.innerHTML=partial.map(s=>`
+        <div class="match">
           <div class="result-name">${s.name}</div>
           <div class="result-email">${s.email}</div>
-        </div>`
-      ).join('');
-    } else {
-      result.innerHTML = `
-        <div class="result-card">
-          <div class="result-name">Nama tidak dijumpai</div>
+          <button class="copy-btn" onclick="copyEmail('${s.email}')">Salin Email</button>
         </div>
-      `;
+      `).join('');
+    }else{
+      result.innerHTML=`<div class="result-card"><div class="result-name">Nama tidak dijumpai</div></div>`;
     }
   }
 }
 
-document.getElementById('name').addEventListener('keydown', function(event){
-  if(event.key === 'Enter'){
+document.getElementById('name').addEventListener('keydown',function(event){
+  if(event.key==='Enter'){
     searchEmail();
   }
 });
