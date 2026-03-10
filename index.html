@@ -5,28 +5,196 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portal Semakan Email DELIMA SMK Sungai Besar</title>
 <style>
-body{font-family:Arial;background:#eef4ff;padding:30px}
-.container{max-width:900px;margin:auto;background:white;padding:30px;border-radius:20px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
-input,button{padding:14px;font-size:16px;border-radius:12px}
-input{width:70%;border:1px solid #ccc}
-button{background:#2563eb;color:white;border:none;cursor:pointer}
-button:disabled{background:#94a3b8;cursor:not-allowed}
-#result{margin-top:20px;padding:20px;border:1px dashed #ccc;border-radius:12px}
-.status{font-size:14px;color:#666;margin-top:10px}
-.match{padding:10px 0;border-bottom:1px solid #eee}
-.match:last-child{border-bottom:none}
+*{
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Arial, sans-serif;
+  margin:0;
+  padding:30px 20px;
+  background:linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%);
+  color:#1e293b;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  background:white;
+  padding:35px 30px;
+  border-radius:24px;
+  box-shadow:0 12px 35px rgba(0,0,0,.08);
+  border:1px solid #e5e7eb;
+}
+
+.header{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.school-logo{
+  width:110px;
+  height:auto;
+  display:block;
+  margin:0 auto 14px;
+}
+
+.header h1{
+  margin:0;
+  font-size:30px;
+  color:#0f172a;
+}
+
+.header p{
+  margin:8px 0 0;
+  font-size:16px;
+  color:#475569;
+}
+
+.search-box{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-bottom:20px;
+}
+
+input,button{
+  padding:14px 16px;
+  font-size:16px;
+  border-radius:14px;
+}
+
+input{
+  flex:1;
+  min-width:260px;
+  border:1px solid #cbd5e1;
+  outline:none;
+  transition:.2s;
+  background:#f8fafc;
+}
+
+input:focus{
+  border-color:#2563eb;
+  box-shadow:0 0 0 4px rgba(37,99,235,.12);
+  background:white;
+}
+
+button{
+  background:#2563eb;
+  color:white;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+  transition:.2s;
+}
+
+button:hover:not(:disabled){
+  background:#1d4ed8;
+}
+
+button:disabled{
+  background:#94a3b8;
+  cursor:not-allowed;
+}
+
+#result{
+  margin-top:20px;
+  padding:20px;
+  border:1px dashed #cbd5e1;
+  border-radius:16px;
+  background:#f8fafc;
+  min-height:90px;
+}
+
+.status{
+  font-size:14px;
+  color:#64748b;
+  margin-top:12px;
+  text-align:center;
+}
+
+.match{
+  padding:14px 0;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.match:last-child{
+  border-bottom:none;
+}
+
+.result-card{
+  background:white;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:16px;
+  box-shadow:0 4px 12px rgba(0,0,0,.04);
+}
+
+.result-name{
+  font-size:18px;
+  font-weight:bold;
+  color:#0f172a;
+  margin-bottom:8px;
+}
+
+.result-email{
+  font-size:16px;
+  color:#2563eb;
+  word-break:break-word;
+}
+
+.footer{
+  margin-top:28px;
+  text-align:center;
+  font-size:13px;
+  color:#94a3b8;
+}
+
+@media (max-width:600px){
+  .container{
+    padding:25px 18px;
+  }
+
+  .header h1{
+    font-size:24px;
+  }
+
+  .school-logo{
+    width:95px;
+  }
+
+  .search-box{
+    flex-direction:column;
+  }
+
+  button{
+    width:100%;
+  }
+}
 </style>
 </head>
 <body>
 <div class="container">
-<h2>Portal Semakan Email DELIMA Murid SMK Sungai Besar</h2>
-<p>Masukkan nama murid untuk semak email DELIMA</p>
 
-<input id="name" placeholder="Taip nama murid">
-<button id="searchBtn" onclick="searchEmail()" disabled>Semak</button>
+  <div class="header">
+    <img src="LOGO SMK 2025.png" alt="Logo SMK Sungai Besar" class="school-logo">
+    <h1>Portal Semakan Email DELIMA</h1>
+    <p>SMK Sungai Besar</p>
+  </div>
 
-<div id="result">Memuatkan data...</div>
-<div class="status" id="statusText">Sila tunggu. Data sedang dimuatkan.</div>
+  <div class="search-box">
+    <input id="name" placeholder="Taip nama murid">
+    <button id="searchBtn" onclick="searchEmail()" disabled>Semak</button>
+  </div>
+
+  <div id="result">Memuatkan data...</div>
+  <div class="status" id="statusText">Sila tunggu. Data sedang dimuatkan.</div>
+
+  <div class="footer">
+    Portal semakan rasmi murid SMK Sungai Besar
+  </div>
+
 </div>
 
 <script>
@@ -42,11 +210,21 @@ fetch('./data.json')
 .then(data => {
   studentData = data;
   document.getElementById('searchBtn').disabled = false;
-  document.getElementById('result').innerHTML = 'Data berjaya dimuatkan. Boleh mula semakan.';
+  document.getElementById('result').innerHTML = `
+    <div class="result-card">
+      <div class="result-name">Data berjaya dimuatkan</div>
+      <div class="result-email">Boleh mula semakan nama murid.</div>
+    </div>
+  `;
   document.getElementById('statusText').innerHTML = 'Jumlah rekod: ' + studentData.length;
 })
 .catch(error => {
-  document.getElementById('result').innerHTML = 'Ralat memuatkan data.json';
+  document.getElementById('result').innerHTML = `
+    <div class="result-card">
+      <div class="result-name">Ralat memuatkan data</div>
+      <div class="result-email">Pastikan fail data.json berada dalam folder yang betul.</div>
+    </div>
+  `;
   document.getElementById('statusText').innerHTML = error.message;
 });
 
@@ -62,14 +240,24 @@ function searchEmail(){
   const result = document.getElementById('result');
 
   if(!input){
-    result.innerHTML = 'Sila masukkan nama murid';
+    result.innerHTML = `
+      <div class="result-card">
+        <div class="result-name">Sila masukkan nama murid</div>
+        <div class="result-email">Contoh: Ahmad bin Ali</div>
+      </div>
+    `;
     return;
   }
 
   const found = studentData.find(s => normalizeText(s.name) === input);
 
   if(found){
-    result.innerHTML = "<b>"+found.name+"</b><br>"+found.email;
+    result.innerHTML = `
+      <div class="result-card">
+        <div class="result-name">${found.name}</div>
+        <div class="result-email">${found.email}</div>
+      </div>
+    `;
   } else {
     const partial = studentData
       .filter(s => normalizeText(s.name).includes(input))
@@ -77,10 +265,18 @@ function searchEmail(){
 
     if(partial.length > 0){
       result.innerHTML = partial.map(s =>
-        '<div class="match"><b>'+s.name+'</b><br>'+s.email+'</div>'
+        `<div class="match">
+          <div class="result-name">${s.name}</div>
+          <div class="result-email">${s.email}</div>
+        </div>`
       ).join('');
     } else {
-      result.innerHTML = "Nama tidak dijumpai";
+      result.innerHTML = `
+        <div class="result-card">
+          <div class="result-name">Nama tidak dijumpai</div>
+          <div class="result-email">Cuba semak ejaan atau masukkan nama yang lebih lengkap.</div>
+        </div>
+      `;
     }
   }
 }
