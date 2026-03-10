@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Semakan Email DELIMA</title>
+<style>
+body{font-family:Arial;background:#eef4ff;padding:30px}
+.container{max-width:900px;margin:auto;background:white;padding:30px;border-radius:20px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+input,button{padding:14px;font-size:16px;border-radius:12px}
+input{width:70%;border:1px solid #ccc}
+button{background:#2563eb;color:white;border:none;cursor:pointer}
+#result{margin-top:20px;padding:20px;border:1px dashed #ccc;border-radius:12px}
+</style>
+</head>
+<body>
+<div class="container">
+<h2>Portal Semakan Email DELIMA</h2>
+<p>Masukkan nama murid untuk semak email DELIMA</p>
+
+<input id="name" placeholder="Taip nama murid">
+<button onclick="searchEmail()">Semak</button>
+
+<div id="result">Belum ada carian</div>
+</div>
+
+<script>
+let studentData = [];
+
+fetch('./data.json')
+.then(response => response.json())
+.then(data => studentData = data);
+
+function normalizeText(text){
+ return text.toLowerCase().trim();
+}
+
+function searchEmail(){
+ const input = normalizeText(document.getElementById('name').value);
+ const result = document.getElementById('result');
+
+ const found = studentData.find(s => normalizeText(s.name) === input);
+
+ if(found){
+   result.innerHTML = "<b>"+found.name+"</b><br>"+found.email;
+ } else {
+   const partial = studentData.filter(s => normalizeText(s.name).includes(input)).slice(0,10);
+   if(partial.length>0){
+     result.innerHTML = partial.map(s=>"<b>"+s.name+"</b><br>"+s.email).join("<hr>");
+   } else {
+     result.innerHTML = "Nama tidak dijumpai";
+   }
+ }
+}
+</script>
+</body>
+</html>
