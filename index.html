@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portal Semakan Email DELIMA SMK Sungai Besar</title>
+
 <style>
 *{
   box-sizing:border-box;
@@ -13,7 +14,7 @@ body{
   font-family:Arial, sans-serif;
   margin:0;
   padding:30px 20px;
-  background:linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%);
+  background:linear-gradient(135deg,#f8fbff,#eef4ff);
   color:#1e293b;
 }
 
@@ -21,76 +22,77 @@ body{
   max-width:900px;
   margin:auto;
   background:white;
-  padding:35px 30px;
+  padding:40px 30px;
   border-radius:24px;
-  box-shadow:0 12px 35px rgba(0,0,0,.08);
-  border:1px solid #e5e7eb;
+  box-shadow:0 15px 35px rgba(0,0,0,.08);
 }
 
 .header{
   text-align:center;
-  margin-bottom:28px;
+  margin-bottom:30px;
 }
 
 .school-logo{
-  width:110px;
+  width:120px;
   height:auto;
-  display:block;
-  margin:0 auto 14px;
+  margin-bottom:15px;
 }
 
 .header h1{
   margin:0;
-  font-size:30px;
+  font-size:32px;
   color:#0f172a;
 }
 
 .header p{
-  margin:8px 0 0;
-  font-size:16px;
+  margin:8px 0;
+  font-size:18px;
   color:#475569;
+}
+
+.subtitle{
+  font-size:14px;
+  color:#64748b;
 }
 
 .search-box{
   display:flex;
   gap:12px;
+  margin-top:25px;
   flex-wrap:wrap;
-  justify-content:center;
-  margin-bottom:20px;
-}
-
-input,button{
-  padding:14px 16px;
-  font-size:16px;
-  border-radius:14px;
 }
 
 input{
   flex:1;
-  min-width:260px;
+  min-width:250px;
+  padding:15px;
+  font-size:16px;
+  border-radius:14px;
   border:1px solid #cbd5e1;
-  outline:none;
-  transition:.2s;
   background:#f8fafc;
 }
 
 input:focus{
+  outline:none;
   border-color:#2563eb;
-  box-shadow:0 0 0 4px rgba(37,99,235,.12);
-  background:white;
+  box-shadow:0 0 0 4px rgba(37,99,235,.1);
 }
 
 button{
+  padding:15px 24px;
+  border:none;
+  border-radius:14px;
   background:#2563eb;
   color:white;
-  border:none;
-  cursor:pointer;
+  font-size:16px;
   font-weight:bold;
-  transition:.2s;
+  cursor:pointer;
+  transition:.25s;
 }
 
 button:hover:not(:disabled){
   background:#1d4ed8;
+  transform:translateY(-1px);
 }
 
 button:disabled{
@@ -99,19 +101,31 @@ button:disabled{
 }
 
 #result{
-  margin-top:20px;
-  padding:20px;
+  margin-top:25px;
+  padding:25px;
+  border-radius:18px;
+  background:#f8fbff;
   border:1px dashed #cbd5e1;
-  border-radius:16px;
-  background:#f8fafc;
-  min-height:90px;
+  min-height:100px;
 }
 
-.status{
-  font-size:14px;
-  color:#64748b;
-  margin-top:12px;
-  text-align:center;
+.result-card{
+  background:white;
+  padding:18px;
+  border-radius:14px;
+  box-shadow:0 4px 10px rgba(0,0,0,.04);
+}
+
+.result-name{
+  font-size:20px;
+  font-weight:bold;
+  color:#0f172a;
+  margin-bottom:8px;
+}
+
+.result-email{
+  color:#2563eb;
+  font-size:17px;
 }
 
 .match{
@@ -123,47 +137,21 @@ button:disabled{
   border-bottom:none;
 }
 
-.result-card{
-  background:white;
-  border:1px solid #e5e7eb;
-  border-radius:14px;
-  padding:16px;
-  box-shadow:0 4px 12px rgba(0,0,0,.04);
-}
-
-.result-name{
-  font-size:18px;
-  font-weight:bold;
-  color:#0f172a;
-  margin-bottom:8px;
-}
-
-.result-email{
-  font-size:16px;
-  color:#2563eb;
-  word-break:break-word;
+.status{
+  text-align:center;
+  margin-top:15px;
+  color:#64748b;
+  font-size:15px;
 }
 
 .footer{
-  margin-top:28px;
+  margin-top:30px;
   text-align:center;
-  font-size:13px;
   color:#94a3b8;
+  font-size:13px;
 }
 
-@media (max-width:600px){
-  .container{
-    padding:25px 18px;
-  }
-
-  .header h1{
-    font-size:24px;
-  }
-
-  .school-logo{
-    width:95px;
-  }
-
+@media(max-width:600px){
   .search-box{
     flex-direction:column;
   }
@@ -171,16 +159,27 @@ button:disabled{
   button{
     width:100%;
   }
+
+  .school-logo{
+    width:100px;
+  }
+
+  .header h1{
+    font-size:26px;
+  }
 }
 </style>
 </head>
+
 <body>
+
 <div class="container">
 
   <div class="header">
-    <img src="LOGO SMK 2025.png" alt="Logo SMK Sungai Besar" class="school-logo">
+    <img src="LOGO SMK 2025.png" class="school-logo">
     <h1>Portal Semakan Email DELIMA</h1>
     <p>SMK Sungai Besar</p>
+    <div class="subtitle">Semakan email rasmi murid bagi akses DELIMA KPM</div>
   </div>
 
   <div class="search-box">
@@ -202,9 +201,7 @@ let studentData = [];
 
 fetch('./data.json')
 .then(response => {
-  if (!response.ok) {
-    throw new Error('Fail data.json tidak dijumpai');
-  }
+  if (!response.ok) throw new Error('Fail data.json tidak dijumpai');
   return response.json();
 })
 .then(data => {
@@ -222,17 +219,13 @@ fetch('./data.json')
   document.getElementById('result').innerHTML = `
     <div class="result-card">
       <div class="result-name">Ralat memuatkan data</div>
-      <div class="result-email">Pastikan fail data.json berada dalam folder yang betul.</div>
+      <div class="result-email">${error.message}</div>
     </div>
   `;
-  document.getElementById('statusText').innerHTML = error.message;
 });
 
 function normalizeText(text){
-  return text
-    .toLowerCase()
-    .replace(/\s+/g,' ')
-    .trim();
+  return text.toLowerCase().replace(/\s+/g,' ').trim();
 }
 
 function searchEmail(){
@@ -243,7 +236,6 @@ function searchEmail(){
     result.innerHTML = `
       <div class="result-card">
         <div class="result-name">Sila masukkan nama murid</div>
-        <div class="result-email">Contoh: Ahmad bin Ali</div>
       </div>
     `;
     return;
@@ -259,9 +251,9 @@ function searchEmail(){
       </div>
     `;
   } else {
-    const partial = studentData
-      .filter(s => normalizeText(s.name).includes(input))
-      .slice(0,10);
+    const partial = studentData.filter(s =>
+      normalizeText(s.name).includes(input)
+    ).slice(0,10);
 
     if(partial.length > 0){
       result.innerHTML = partial.map(s =>
@@ -274,7 +266,6 @@ function searchEmail(){
       result.innerHTML = `
         <div class="result-card">
           <div class="result-name">Nama tidak dijumpai</div>
-          <div class="result-email">Cuba semak ejaan atau masukkan nama yang lebih lengkap.</div>
         </div>
       `;
     }
@@ -287,5 +278,6 @@ document.getElementById('name').addEventListener('keydown', function(event){
   }
 });
 </script>
+
 </body>
 </html>
